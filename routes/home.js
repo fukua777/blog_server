@@ -1,47 +1,30 @@
 var express = require('express');
 var router = express.Router();
 
-var mysql = require('mysql');
-var mysqlPool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'helloWorld',
-    database: 'express_test'
-});
+var mysqlPool = require('../mysql/mysql');
 
-
-/* GET home page. */
-router.get('/index', function(req, res, next) {
-    // res.render('index', { title: 'Express' });
-    // res.send({result: 'success'});
+// 获取tips列表
+router.get('/getTipsList', function(req,res,next){
     mysqlPool.getConnection(function(err,connection){
-        connection.query('INSERT INTO test2(content) VALUES (?)',['markdown_test'],function(err,result){
-          console.log(result);
+        connection.query('select * from test2 ORDER BY createtime DESC',function(err,result){
           if(result){
-            res.send({type: 'success'});
-          }
-          connection.release();
-        });
-    });
-});
-router.get('/getmd', function(req,res,next){
-    mysqlPool.getConnection(function(err,connection){
-        connection.query('select * from test2',function(err,result){
-          console.log(result);
-          if(result){
-            res.send({type: result});
+            res.send({data: result});
           }
           connection.release();
         });
     });
 })
-router.post('/poststh', function(req,res,next){
-    console.log(req.body);
-    res.send({type: 'success'});
+// 发送
+router.post('/postTip', function(req,res,next){
+    mysqlPool.getConnection(function(err,connection){
+        connection.query('insert into test2(content) values (?)', [req.body.content],function(err,result){
+          if(result){
+            res.send({result: 'success'});
+          }
+          connection.release();
+        });
+    });
 });
 
-router.get('/markdown', function(req, res) {  
-    res.render('index.md',{layout:false});
-}) 
 
 module.exports = router;

@@ -9,13 +9,23 @@
 <body>
     <h1>test</h1>
     <button onclick="send()">发送</button>
+    <p id="result"></p>
 </body>
 </html>
 <script>
+    var resultHtml = document.getElementById('result');
+
     send = () => {
         console.log('test');
         var xhr = new XMLHttpRequest();
-        xhr.open('get','/home/index',true)
-        xhr.send()
+        xhr.open('post', '/article/addArticle');
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function(){
+            console.log(xhr);
+            if(xhr.readyState == 4 && xhr.status == 200){
+                resultHtml.innerHTML = xhr.response;
+            }
+        }
+        xhr.send('fileName=index.md&title="just a test"')  
     }
 </script>

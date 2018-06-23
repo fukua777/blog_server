@@ -10,6 +10,7 @@ var marked = require('marked');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var homeRouter = require('./routes/home');
+var articleRouter = require('./routes/article');
 
 var app = express();
 
@@ -19,7 +20,6 @@ app.set('view engine', 'jade');
 app.engine('md', function(path, options, fn){  
   fs.readFile(path, 'utf8', function(err, str){  
     if (err) return fn(err);  
-    // str = markdown.parse(str).toString();  
     result = marked(str);
     fn(null, result);  
   });  
@@ -45,10 +45,7 @@ app.all('*', function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/home', homeRouter );
-
-app.get('/test', function(req, res, next){
-  res.send({type: marked('## hello world')});
-})
+app.use('/article', articleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
