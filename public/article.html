@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Article</title>
+</head>
+<body>
+    <form action="/article/addArticle" method="post" >
+        <input required name="fileName" type="text" placeholder="文件名">
+        <input required name="title" type="text" placeholder="标题">
+        <input required name="tag" type="text" placeholder="标签">
+        <input type="submit" value="提交" >
+    </form>
+    <!-- <button onclick="send()">发送</button> -->
+    <p id="resultHtml"></p>
+</body>
+</html>
+<script>
+    // 直接用form，下面暂留
+    var resultHtml = document.getElementById('resultHtml');
+
+    submit = (e) => {
+        console.log(e);
+        e.preventDefault();
+
+        var formData = new FormData();
+        formData.append('fileName',document.querySelector('input[name=fileName]').value);
+        formData.append('title',document.querySelector('input[name=title]').value);
+        formData.append('tag', document.querySelector('input[name=tag]').value);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', '/article/addArticle');
+        // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");   // 后面用中间件解析formdata，前面不再定义请求头
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                resultHtml.innerHTML = xhr.response;
+            }
+        }
+        xhr.send(formData);
+    }
+</script>
