@@ -3,16 +3,18 @@ var router = express.Router();
 var path = require('path');
 var fs = require('fs');
 var marked = require('marked');
-marked.setOptions({
-    renderer: new marked.Renderer(),
-    gfm: true,
-    tables: true,
-    breaks: false,
-    pedantic: false,
-    sanitize: true,
-    smartLists: true,
-    smartypants: false
-  });
+
+// 还原默认设置，转换html标签
+// marked.setOptions({
+//     renderer: new marked.Renderer(),
+//     gfm: true,
+//     tables: true,
+//     breaks: false,
+//     pedantic: false,
+//     sanitize: true,
+//     smartLists: true,
+//     smartypants: false
+//   });
 
 var querystring = require('querystring');
 

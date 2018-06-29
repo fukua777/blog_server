@@ -1,10 +1,3 @@
----
-title: About　Ts
-categories: 甫夸之谈———JS
-tags: "typescript"
-date: 2018-02-25
----
-
 > 关于
 
 　　Typescript是JavaScript类型的超集，可以编译成JavaScript。
