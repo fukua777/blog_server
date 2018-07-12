@@ -28,7 +28,7 @@ router.post('/addArticle', multipartMiddleware, function(req,res,next){
     var filePath = path.join(__dirname, '../post', `${req.body.fileName}.md`);
     fs.readFile(filePath, 'utf8', function(err,data){
         if(err) {
-            console.log(err);
+            // console.log(err);
             res.send({data: err, status: 0});
             return;
         }
@@ -60,7 +60,7 @@ router.get('/getList', function(req,res){
 })
 // 获取详情
 router.get('/getDetail', function(req,res){
-    console.log(req);
+    // console.log(req);
     mysqlPool.getConnection(function(err,connection){
         connection.query('select * from article where id = ?', [req.query.id],function(err,data){
             if(data){
